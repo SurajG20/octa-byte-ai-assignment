@@ -13,12 +13,12 @@ export interface PortfolioStock {
 export interface LiveStockData {
   symbol: string;
   cmp: number;
-  peRatio: number;
-  latestEarnings: string;
+  peRatio: number | null;
+  latestEarnings: string | null;
 }
 
 // frontend showcase
-export interface PortfolioData {
+export interface PortfolioHolding {
   id: number;
   stockName: string;
   symbol: string;
@@ -27,13 +27,25 @@ export interface PortfolioData {
   purchasePrice: number;
   quantity: number;
 
-  investment: number;
-  portfolioPercentage: number;
+  investedValue: number;
+  currentValue: number;
+
+  profitLoss: number;
+  profitLossPercentage: number;
 
   cmp: number;
-  currentValue: number;
-  gainLoss: number;
+  peRatio: number | null;
+  latestEarnings: string | null;
+}
 
-  peRatio: number;
-  latestEarnings: string;
+export interface PortfolioSummary {
+  totalInvested: number;
+  totalCurrent: number;
+  totalProfitLoss: number;
+  totalProfitLossPercentage: number;
+}
+
+export interface PortfolioResponse {
+  holdings: PortfolioHolding[];
+  summary: PortfolioSummary;
 }
