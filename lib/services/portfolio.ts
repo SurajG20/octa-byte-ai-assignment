@@ -44,11 +44,16 @@ class PortfolioService {
         currentValue,
         profitLoss,
         profitLossPercentage,
+        portfolioPercentage: 0,
       });
       totalInvested += investedValue;
       totalCurrent += currentValue;
     }
 
+    for (const holding of holdings) {
+      holding.portfolioPercentage =
+        (holding.investedValue / totalInvested) * 100;
+    }
     const totalProfitLoss = totalCurrent - totalInvested;
 
     const totalProfitLossPercentage = (totalProfitLoss / totalInvested) * 100;

@@ -33,6 +33,8 @@ export interface PortfolioHolding {
   profitLoss: number;
   profitLossPercentage: number;
 
+  portfolioPercentage:number;
+
   cmp: number;
   peRatio: number | null;
   latestEarnings: string | null;

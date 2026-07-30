@@ -37,6 +37,11 @@ const columns: ColumnDef<PortfolioHolding>[] = [
     cell: ({ getValue }) => `₹${getValue<number>().toLocaleString()}`,
   },
   {
+    accessorKey: "portfolioPercentage",
+    header: "Portfolio %",
+    cell: ({ getValue }) => `${getValue<number>().toFixed(2)}%`,
+  },
+  {
     accessorKey: "currentValue",
     header: "Current",
     cell: ({ getValue }) => `₹${getValue<number>().toLocaleString()}`,
