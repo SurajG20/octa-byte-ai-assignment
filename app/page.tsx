@@ -1,6 +1,7 @@
 import SummaryCards from "@/components/SummaryCards";
 import HoldingsTable from "@/components/HoldingsTable";
 import { portfolioService } from "@/lib/services/portfolio";
+import SectorCards from "@/components/SectorCards";
 
 export default async function Home() {
   const portfolio = await portfolioService.getPortfolio();
@@ -16,7 +17,7 @@ export default async function Home() {
         </header>
 
         <SummaryCards summary={portfolio.summary} />
-
+        <SectorCards sectors={portfolio.sectors} />
         <HoldingsTable holdings={portfolio.holdings} />
       </div>
     </main>

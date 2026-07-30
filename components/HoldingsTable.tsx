@@ -15,65 +15,77 @@ interface HoldingsTableProps {
 const columns: ColumnDef<PortfolioHolding>[] = [
   {
     accessorKey: "stockName",
-    header: "Stock",
-  },
-  {
-    accessorKey: "quantity",
-    header: "Qty",
+    header: "Particulars",
   },
   {
     accessorKey: "purchasePrice",
-    header: "Avg Price",
-    cell: ({ getValue }) => `₹${getValue<number>()}`,
+    header: "Purchase Price",
+    cell: ({ getValue }) => `₹${getValue<number>().toLocaleString()}`,
   },
   {
-    accessorKey: "cmp",
-    header: "CMP",
-    cell: ({ getValue }) => `₹${getValue<number>()}`,
+    accessorKey: "quantity",
+    header: "Quantity (Qty)",
   },
   {
     accessorKey: "investedValue",
-    header: "Invested",
+    header: "Investment",
     cell: ({ getValue }) => `₹${getValue<number>().toLocaleString()}`,
   },
   {
     accessorKey: "portfolioPercentage",
-    header: "Portfolio %",
+    header: "Portfolio (%)",
     cell: ({ getValue }) => `${getValue<number>().toFixed(2)}%`,
   },
   {
+    accessorKey: "exchange",
+    header: "NSE/BSE",
+  },
+  {
+    accessorKey: "cmp",
+    header: "CMP",
+    cell: ({ getValue }) => `₹${getValue<number>().toLocaleString()}`,
+  },
+  {
     accessorKey: "currentValue",
-    header: "Current",
+    header: "Present Value",
     cell: ({ getValue }) => `₹${getValue<number>().toLocaleString()}`,
   },
   {
     accessorKey: "profitLoss",
-    header: "P/L",
+    header: "Gain/Loss",
     cell: ({ row }) => {
       const value = row.original.profitLoss;
 
       return (
-        <span className={value >= 0 ? "text-green-600" : "text-red-600"}>
-          ₹{value.toFixed(2)}
+        <span
+          className={
+            value >= 0
+              ? "font-medium text-green-600"
+              : "font-medium text-red-600"
+          }
+        >
+          ₹
+          {value.toLocaleString(undefined, {
+            maximumFractionDigits: 2,
+          })}
         </span>
       );
     },
   },
   {
-    accessorKey: "profitLossPercentage",
-    header: "P/L %",
-    cell: ({ getValue }) => `${getValue<number>().toFixed(2)}%`,
-  },
-  {
     accessorKey: "peRatio",
-    header: "P/E",
+    header: "P/E Ratio",
+    cell: ({ getValue }) => {
+      const value = getValue<number | null>();
+      return value ?? "-";
+    },
   },
   {
     accessorKey: "latestEarnings",
-    header: "EPS",
+    header: "Latest Earnings",
+    cell: ({ getValue }) => getValue<string | null>() ?? "-",
   },
 ];
-
 export default function HoldingsTable({ holdings }: HoldingsTableProps) {
   const table = useReactTable({
     data: holdings,

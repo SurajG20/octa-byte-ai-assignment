@@ -1,7 +1,7 @@
 import { portfolio } from "../data/portfolio";
 import { googleService } from "./google";
 import { yahooService } from "./yahoo";
-import { PortfolioHolding, PortfolioResponse } from "../../types/portfolio";
+import { PortfolioHolding, PortfolioResponse, SectorSummary } from "../../types/portfolio";
 
 let cache: PortfolioResponse | null = null;
 let lastFetched = 0;
@@ -54,11 +54,30 @@ class PortfolioService {
       holding.portfolioPercentage =
         (holding.investedValue / totalInvested) * 100;
     }
+
+    const sectorMap: Record<string, SectorSummary> = {};
+
+    for (const holding of holdings) {
+      if (!sectorMap[holding.sector]) {
+        sectorMap[holding.sector] = {
+          sector: holding.sector,
+          invested: 0,
+          current: 0,
+          profitLoss: 0,
+        };
+      }
+
+      sectorMap[holding.sector].invested += holding.investedValue;
+      sectorMap[holding.sector].current += holding.currentValue;
+      sectorMap[holding.sector].profitLoss += holding.profitLoss;
+    }
+
+    const sectors = Object.values(sectorMap);
     const totalProfitLoss = totalCurrent - totalInvested;
 
     const totalProfitLossPercentage = (totalProfitLoss / totalInvested) * 100;
 
-    const result: PortfolioResponse = {
+    const result = {
       holdings,
       summary: {
         totalInvested,
@@ -66,6 +85,7 @@ class PortfolioService {
         totalProfitLoss,
         totalProfitLossPercentage,
       },
+      sectors,
     };
     cache = result;
     lastFetched = Date.now();

@@ -47,7 +47,15 @@ export interface PortfolioSummary {
   totalProfitLossPercentage: number;
 }
 
+export interface SectorSummary {
+  sector: string;
+  invested: number;
+  current: number;
+  profitLoss: number;
+}
+
 export interface PortfolioResponse {
   holdings: PortfolioHolding[];
   summary: PortfolioSummary;
+  sectors: SectorSummary[];
 }
