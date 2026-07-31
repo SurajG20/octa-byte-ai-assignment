@@ -86,6 +86,7 @@ class PortfolioService {
         totalProfitLossPercentage,
       },
       sectors,
+      lastUpdated: new Date().toLocaleTimeString(),
     };
     cache = result;
     lastFetched = Date.now();

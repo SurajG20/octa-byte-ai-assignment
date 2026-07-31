@@ -58,4 +58,5 @@ export interface PortfolioResponse {
   holdings: PortfolioHolding[];
   summary: PortfolioSummary;
   sectors: SectorSummary[];
+  lastUpdated:string
 }
