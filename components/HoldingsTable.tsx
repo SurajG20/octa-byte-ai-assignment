@@ -19,22 +19,31 @@ const columns: ColumnDef<PortfolioHolding>[] = [
   },
   {
     accessorKey: "purchasePrice",
-    header: "Purchase Price",
-    cell: ({ getValue }) => `₹${getValue<number>().toLocaleString()}`,
+    header: () => <div className="text-right">Purchase Price</div>,
+    cell: ({ getValue }) => (
+      <div className="text-right">₹{getValue<number>().toLocaleString()}</div>
+    ),
   },
   {
     accessorKey: "quantity",
-    header: "Quantity (Qty)",
+    header: () => <div className="text-right">Quantity (Qty)</div>,
+    cell: ({ getValue }) => (
+      <div className="text-right">{getValue<number>()}</div>
+    ),
   },
   {
     accessorKey: "investedValue",
-    header: "Investment",
-    cell: ({ getValue }) => `₹${getValue<number>().toLocaleString()}`,
+    header: () => <div className="text-right">Investment</div>,
+    cell: ({ getValue }) => (
+      <div className="text-right">₹{getValue<number>().toLocaleString()}</div>
+    ),
   },
   {
     accessorKey: "portfolioPercentage",
-    header: "Portfolio (%)",
-    cell: ({ getValue }) => `${getValue<number>().toFixed(2)}%`,
+    header: () => <div className="text-right">Portfolio (%)</div>,
+    cell: ({ getValue }) => (
+      <div className="text-right">{getValue<number>().toFixed(2)}%</div>
+    ),
   },
   {
     accessorKey: "exchange",
@@ -42,48 +51,51 @@ const columns: ColumnDef<PortfolioHolding>[] = [
   },
   {
     accessorKey: "cmp",
-    header: "CMP",
-    cell: ({ getValue }) => `₹${getValue<number>().toLocaleString()}`,
+    header: () => <div className="text-right">CMP</div>,
+    cell: ({ getValue }) => (
+      <div className="text-right">₹{getValue<number>().toLocaleString()}</div>
+    ),
   },
   {
     accessorKey: "currentValue",
-    header: "Present Value",
-    cell: ({ getValue }) => `₹${getValue<number>().toLocaleString()}`,
+    header: () => <div className="text-right">Present Value</div>,
+    cell: ({ getValue }) => (
+      <div className="text-right">₹{getValue<number>().toLocaleString()}</div>
+    ),
   },
   {
     accessorKey: "profitLoss",
-    header: "Gain/Loss",
+    header: () => <div className="text-right">Gain/Loss</div>,
     cell: ({ row }) => {
       const value = row.original.profitLoss;
 
       return (
-        <span
-          className={
-            value >= 0
-              ? "font-medium text-green-600"
-              : "font-medium text-red-600"
-          }
+        <div
+          className={`text-right font-medium ${
+            value >= 0 ? "text-green-600" : "text-red-600"
+          }`}
         >
           ₹
           {value.toLocaleString(undefined, {
             maximumFractionDigits: 2,
           })}
-        </span>
+        </div>
       );
     },
   },
   {
     accessorKey: "peRatio",
-    header: "P/E Ratio",
-    cell: ({ getValue }) => {
-      const value = getValue<number | null>();
-      return value ?? "-";
-    },
+    header: () => <div className="text-right">P/E Ratio</div>,
+    cell: ({ getValue }) => (
+      <div className="text-right">{getValue<number | null>() ?? "-"}</div>
+    ),
   },
   {
     accessorKey: "latestEarnings",
-    header: "Latest Earnings",
-    cell: ({ getValue }) => getValue<string | null>() ?? "-",
+    header: () => <div className="text-right">Latest Earnings</div>,
+    cell: ({ getValue }) => (
+      <div className="text-right">{getValue<string | null>() ?? "-"}</div>
+    ),
   },
 ];
 export default function HoldingsTable({ holdings }: HoldingsTableProps) {
@@ -94,15 +106,15 @@ export default function HoldingsTable({ holdings }: HoldingsTableProps) {
   });
 
   return (
-    <div className="overflow-x-auto rounded-lg border">
+    <div className="max-h-162.5 overflow-auto rounded-lg border">
       <table className="w-full border-collapse">
-        <thead className="bg-gray-100">
+        <thead className="sticky top-0 z-10 bg-gray-100">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="border-b px-4 py-3 text-left font-semibold"
+                  className="border-b px-4 py-3 text-sm font-semibold text-gray-700"
                 >
                   {flexRender(
                     header.column.columnDef.header,
@@ -116,9 +128,12 @@ export default function HoldingsTable({ holdings }: HoldingsTableProps) {
 
         <tbody>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} className="hover:bg-gray-50">
+            <tr
+              key={row.id}
+              className="odd:bg-white even:bg-gray-50 hover:bg-blue-50 transition-colors"
+            >
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="border-b px-4 py-3">
+                <td key={cell.id} className="border-b px-4 py-3 text-sm">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}

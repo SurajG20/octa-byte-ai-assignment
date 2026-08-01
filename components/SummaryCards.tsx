@@ -1,5 +1,5 @@
 import { PortfolioSummary } from "@/types/portfolio";
-
+import { formatMoney } from "@/utils/formatMoney";
 interface SummaryCardsProps {
   summary: PortfolioSummary;
 }
@@ -10,7 +10,7 @@ export default function SummaryCards({ summary }: SummaryCardsProps) {
       <div className="rounded-lg border p-4 shadow">
         <h2 className="text-sm text-gray-500">Total Invested</h2>
         <p className="text-2xl font-bold">
-          ₹{summary.totalInvested.toLocaleString()}
+          ₹{formatMoney(summary.totalInvested)}
         </p>
       </div>
 
