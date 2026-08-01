@@ -27,7 +27,11 @@ class YahooService {
       };
     } catch (error) {
       console.error("Yahoo Finance Error:", error);
-      throw new Error(`Failed to fetch current price for ${symbol}`);
+
+      return {
+        symbol,
+        cmp: 0,
+      };
     }
   }
 }

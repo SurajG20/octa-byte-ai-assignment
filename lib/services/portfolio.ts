@@ -38,6 +38,15 @@ class PortfolioService {
         ]);
       } catch (error) {
         console.error(`Failed to fetch data for ${holding.symbol}:`, error);
+        yahoo = { symbol: holding.symbol, cmp: 0 };
+        google = {
+          symbol: holding.symbol,
+          peRatio: null,
+          latestEarnings: null,
+        };
+      }
+
+      if (yahoo.cmp === 0) {
         fetchError = true;
 
         const cached = cache?.holdings.find(
@@ -50,13 +59,6 @@ class PortfolioService {
             symbol: holding.symbol,
             peRatio: cached.peRatio,
             latestEarnings: cached.latestEarnings,
-          };
-        } else {
-          yahoo = { symbol: holding.symbol, cmp: holding.purchasePrice };
-          google = {
-            symbol: holding.symbol,
-            peRatio: null,
-            latestEarnings: null,
           };
         }
       }
