@@ -17,7 +17,7 @@ export default function SummaryCards({ summary }: SummaryCardsProps) {
       <div className="rounded-lg border p-4 shadow">
         <h2 className="text-sm text-gray-500">Current Value</h2>
         <p className="text-2xl font-bold">
-          ₹{summary.totalCurrent.toLocaleString()}
+          ₹{formatMoney(summary.totalCurrent)}
         </p>
       </div>
 
@@ -28,7 +28,7 @@ export default function SummaryCards({ summary }: SummaryCardsProps) {
             summary.totalProfitLoss >= 0 ? "text-green-600" : "text-red-600"
           }`}
         >
-          ₹{summary.totalProfitLoss.toLocaleString()}
+          ₹{formatMoney(summary.totalProfitLoss)}
         </p>
       </div>
 
