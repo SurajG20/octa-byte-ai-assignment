@@ -42,6 +42,4 @@ The page has an `AutoRefresh` client component that calls `router.refresh()` eve
 
 ## Challenges
 
-- Google Finance does not provide an official API, so scraping was needed. The page structure can change, which can break the scraper.
-- Slow API responses made the initial load slow. Caching and graceful fallback kept the page usable.
-- Yahoo and Google use different symbols/exchange suffixes (for example `.NS` for NSE), so symbols had to be mapped correctly.
+See [CHALLENGES.md](CHALLENGES.md) for the challenges faced and how they were solved.

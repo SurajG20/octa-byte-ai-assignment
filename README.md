@@ -27,6 +27,11 @@ This was built as an assignment to practice server components, client components
 - Cheerio (scraping Google Finance)
 - TanStack Table
 
+## Technical Details & Challenges
+
+- See [Technical.MD](TECHNICAL.MD) for the architecture, data flow, caching, and auto refresh.
+- See [CHALLENGES.md](CHALLENGES.md) for the challenges faced and how they were solved.
+
 ## Project Structure
 
 ```
