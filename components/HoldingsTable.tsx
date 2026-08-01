@@ -1,6 +1,7 @@
 "use client";
 
 import { PortfolioHolding } from "@/types/portfolio";
+import { formatINR } from "@/utils/formatMoney";
 import {
   ColumnDef,
   flexRender,
@@ -21,7 +22,7 @@ const columns: ColumnDef<PortfolioHolding>[] = [
     accessorKey: "purchasePrice",
     header: () => <div className="text-right">Purchase Price</div>,
     cell: ({ getValue }) => (
-      <div className="text-right">₹{getValue<number>().toLocaleString()}</div>
+      <div className="text-right">₹{formatINR(getValue<number>())}</div>
     ),
   },
   {
@@ -35,7 +36,7 @@ const columns: ColumnDef<PortfolioHolding>[] = [
     accessorKey: "investedValue",
     header: () => <div className="text-right">Investment</div>,
     cell: ({ getValue }) => (
-      <div className="text-right">₹{getValue<number>().toLocaleString()}</div>
+      <div className="text-right">₹{formatINR(getValue<number>())}</div>
     ),
   },
   {
@@ -53,14 +54,14 @@ const columns: ColumnDef<PortfolioHolding>[] = [
     accessorKey: "cmp",
     header: () => <div className="text-right">CMP</div>,
     cell: ({ getValue }) => (
-      <div className="text-right">₹{getValue<number>().toLocaleString()}</div>
+      <div className="text-right">₹{formatINR(getValue<number>())}</div>
     ),
   },
   {
     accessorKey: "currentValue",
     header: () => <div className="text-right">Present Value</div>,
     cell: ({ getValue }) => (
-      <div className="text-right">₹{getValue<number>().toLocaleString()}</div>
+      <div className="text-right">₹{formatINR(getValue<number>())}</div>
     ),
   },
   {
@@ -75,10 +76,7 @@ const columns: ColumnDef<PortfolioHolding>[] = [
             value >= 0 ? "text-green-600" : "text-red-600"
           }`}
         >
-          ₹
-          {value.toLocaleString(undefined, {
-            maximumFractionDigits: 2,
-          })}
+          ₹{formatINR(value)}
         </div>
       );
     },

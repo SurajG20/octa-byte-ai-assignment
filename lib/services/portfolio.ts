@@ -1,6 +1,6 @@
 import { portfolio } from "../data/portfolio";
-import { googleService } from "./google";
-import { yahooService } from "./yahoo";
+import { googleService, GoogleQuote } from "./google";
+import { yahooService, YahooQuote } from "./yahoo";
 import { PortfolioHolding, PortfolioResponse, SectorSummary } from "../../types/portfolio";
 
 let cache: PortfolioResponse | null = null;
@@ -12,21 +12,55 @@ class PortfolioService {
   async getPortfolio(): Promise<PortfolioResponse> {
     if (cache && Date.now() - lastFetched < CACHE_TIME) {
       console.log("Using Cache");
-      return cache;
+      return {
+        ...cache,
+        fromCache: true,
+        cachedAt: lastFetched,
+      };
     }
 
     console.log("Fetching portfolio");
 
     const holdings: PortfolioHolding[] = [];
+    let fetchError = false;
 
     let totalInvested = 0;
     let totalCurrent = 0;
 
     for (const holding of portfolio) {
-      const [yahoo, google] = await Promise.all([
-        yahooService.getCurrentPrice(holding.symbol, holding.exchange),
-        googleService.getStockDetails(holding.symbol, holding.exchange),
-      ]);
+      let yahoo: YahooQuote;
+      let google: GoogleQuote;
+
+      try {
+        [yahoo, google] = await Promise.all([
+          yahooService.getCurrentPrice(holding.symbol, holding.exchange),
+          googleService.getStockDetails(holding.symbol, holding.exchange),
+        ]);
+      } catch (error) {
+        console.error(`Failed to fetch data for ${holding.symbol}:`, error);
+        fetchError = true;
+
+        const cached = cache?.holdings.find(
+          (h) => h.symbol === holding.symbol,
+        );
+
+        if (cached) {
+          yahoo = { symbol: holding.symbol, cmp: cached.cmp };
+          google = {
+            symbol: holding.symbol,
+            peRatio: cached.peRatio,
+            latestEarnings: cached.latestEarnings,
+          };
+        } else {
+          yahoo = { symbol: holding.symbol, cmp: holding.purchasePrice };
+          google = {
+            symbol: holding.symbol,
+            peRatio: null,
+            latestEarnings: null,
+          };
+        }
+      }
+
       const investedValue = holding.purchasePrice * holding.quantity;
 
       const currentValue = yahoo.cmp * holding.quantity;
@@ -87,6 +121,9 @@ class PortfolioService {
       },
       sectors,
       lastUpdated: new Date().toLocaleTimeString(),
+      fromCache: false,
+      cachedAt: Date.now(),
+      fetchError,
     };
     cache = result;
     lastFetched = Date.now();

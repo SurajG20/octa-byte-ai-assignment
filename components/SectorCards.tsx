@@ -1,4 +1,5 @@
 import { SectorSummary } from "@/types/portfolio";
+import { formatINR } from "@/utils/formatMoney";
 
 interface SectorCardsProps {
   sectors: SectorSummary[];
