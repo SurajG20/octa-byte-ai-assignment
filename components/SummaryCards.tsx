@@ -6,7 +6,7 @@ interface SummaryCardsProps {
 
 export default function SummaryCards({ summary }: SummaryCardsProps) {
   return (
-    <div className="grid grid-cols-4 gap-6 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       <div className="rounded-xl border bg-white p-5 shadow-sm hover:shadow-lg transition">
         <h2 className="text-sm text-gray-500">Total Invested</h2>
         <p className="text-2xl font-bold">
