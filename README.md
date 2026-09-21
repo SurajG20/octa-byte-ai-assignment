@@ -1,5 +1,8 @@
 # Portfolio Dashboard
 
+> **Take-home assessment** · Octa Byte AI · 2025  
+> Stronger full-stack / AI work: [GraphMind](https://github.com/SurajG20/ai-repo-workspace) · [BudgetWise](https://github.com/SurajG20/BudgetWise)
+
 ## About
 
 A simple dashboard that shows my stock portfolio with live prices. The portfolio data is stored locally in the repo. The app fetches the current price of each stock, calculates profit/loss, and groups holdings by sector.
